@@ -6,7 +6,7 @@ app.use(express.static('./public/'))
 console.log('im on a node server, yo');
 
 app.get('/', function (req, res) {
-  res.sendFile('index.html')
+  res.sendFile(path.resolve('index.html'))
 })
 
 
