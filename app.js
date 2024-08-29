@@ -3,7 +3,7 @@ const app = express()
 app.set('view engine', 'ejs')
 app.use(express.static('./Public/'))
 
-console.log('im on a node server change that and that tanad f, yo');
+console.log('im on a node server yo!');
 
 app.get('/', function (req, res) {
   // res.send('Hello Node from Ex on local dev box')
