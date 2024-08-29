@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 app.set('view engine', 'ejs')
-app.use(express.static('./public/'))
+app.use(express.static('./Public/'))
 
 console.log('im on a node server change that and that tanad f, yo');
 
@@ -18,5 +18,5 @@ app.get('/ejs', (req,res)=>{
 
 })
 
-app.listen(5000)
+app.listen(3000)
 
