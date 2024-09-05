@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 app.set('view engine', 'ejs')
@@ -7,7 +8,8 @@ console.log('im on a node server yo!');
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.uri;
+const uri = process.env.mongo_uri;
+console.log(uri);
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -32,6 +34,22 @@ async function run() {
 }
 run().catch(console.dir);
 
+app.get('/mongo', async (req,res)=>{
+
+  await client.connect();
+
+  let result = await client.db("zach-db").collection("test-collection").find({}).toArray();
+    console.log(result);
+})
+
+
+app.get('/ejs', (req,res)=>{
+  
+  res.render('mongo',{
+    mongoResult : result[0]
+  });
+
+})
 
 app.get('/', function (req, res) {
   // res.send('Hello Node from Ex on local dev box')
