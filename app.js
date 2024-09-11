@@ -1,15 +1,15 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-app.set('view engine', 'ejs')
-app.use(express.static('./Public/'))
+const { MongoClient, ServerApiVersion } = require('mongodb'); 
+const uri = process.env.MONGO_URI; 
 
-console.log('im on a node server yo!');
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+// const path = require('path')
+// app.use('/static', express.static(path.join(__dirname, 'public')))
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.mongo_uri;
-console.log(uri);
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -32,37 +32,24 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+// run().catch(console.dir);
 
-app.get('/mongo', async (req,res)=>{
-
-  await client.connect();
-
-  let result = await client.db("zach-db").collection("test-collection").find({}).toArray();
-    console.log(result);
-})
-
-
-app.get('/ejs', (req,res)=>{
-  
-  res.render('mongo',{
-    mongoResult : result[0]
-  });
-
-})
 
 app.get('/', function (req, res) {
-  // res.send('Hello Node from Ex on local dev box')
-  res.sendFile('index.html');
+  res.sendFile('index.html')
 })
 
-app.get('/ejs', (req,res)=>{
-  
+//ejs stuff
+app.get('/ejs', async (req, res) => {
+ 
+  await client.connect();
+  let result = await client.db("zach-db").collection("class collection").find({}).toArray();
+
+  console.log(result);
+
   res.render('index', {
-    myServerVariable : "something from server"
+    ejsResult : result
   });
-
-})
+});
 
 app.listen(3000)
-

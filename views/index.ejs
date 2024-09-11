@@ -1,3 +1,9 @@
-<h1>My ejs page</h1>
+<h1>hello from ejs</h1>
+<br>
+<a href="/">static html</a>
 
-<%=myServerVariable %>
+<% ejsResult.forEach((value,index)=>{ %> 
+
+  <p><%=value.post %></p>
+
+<% }) %> 
