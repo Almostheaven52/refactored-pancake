@@ -5,7 +5,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGO_URI; 
 
 app.set('view engine', 'ejs');
-app.use(express.static('Public'));
+app.use(express.static('public'));
 // const path = require('path')
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 
