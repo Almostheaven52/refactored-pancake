@@ -1,9 +1,15 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb'); 
-const uri = process.env.MONGO_URI; 
+const bodyParser = require('body-parser')
+const { urlencoded } = require('body-parser')
+const { ObjectId } = require('mongodb')
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = `mongodb+srv://zach:${process.env.MONGO_PWD}@cluster0.ftfvb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
+
+
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 // const path = require('path')
@@ -32,7 +38,7 @@ async function run() {
     await client.close();
   }
 }
-// run().catch(console.dir);
+run().catch(console.dir);
 
 
 app.get('/', function (req, res) {
@@ -40,16 +46,67 @@ app.get('/', function (req, res) {
 })
 
 //ejs stuff
-app.get('/ejs', async (req, res) => {
- 
+app.get('/ejs', (req,res)=>{
+  ``
+    res.render('index', {
+      myServerVariable : "This is an ejs page"
+    });
+  
+    //can you get content from client...to console? 
+
+})
+
+
+app.get('/read', async (req,res)=>{
+
+    console.log('in /mongo');
+    await client.connect();
+    
+    console.log('connected?');
+    // Send a ping to confirm a successful connection
+    
+    let result = await client.db("zach-db").collection("class collection")
+      .find({}).toArray(); 
+    console.log(result); 
+  
+    res.render('mongo', {
+      postData : result
+    });
+  
+})
+
+app.get('/insert', async (req,res)=> {
+
+  console.log('in /insert');
+  //connect to db,
   await client.connect();
-  let result = await client.db("zach-db").collection("class collection").find({}).toArray();
+  //point to the collection 
+  await client.db("zach-db").collection("class collection").insertOne({ post: 'hardcoded post insert '});
+  await client.db("zach-db").collection("class collection").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
+  //insert into it
+  res.render('insert');
 
-  console.log(result);
-
-  res.render('index', {
-    ejsResult : result
-  });
 });
+
+app.post('/update/:id', async (req,res)=>{
+
+  console.log("req.parms.id: ", req.params.id)
+
+  client.connect; 
+  const collection = client.db("zach-db").collection("class collection");
+  let result = await collection.findOneAndUpdate( 
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
+)
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+ 
+  //insert into it
+ 
+
+
+})
+
 
 app.listen(3000)
