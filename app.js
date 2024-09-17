@@ -11,7 +11,7 @@ const uri = `mongodb+srv://zach:${process.env.MONGO_PWD}@cluster0.ftfvb.mongodb.
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static('Public'));
 // const path = require('path')
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 
