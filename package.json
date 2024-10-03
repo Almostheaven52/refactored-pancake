@@ -4,7 +4,7 @@
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "mongodb": "^6.9.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.7"
   },
   "name": "ubiquitous-umbrella",
   "version": "1.0.0",

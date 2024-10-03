@@ -6,7 +6,7 @@ const { urlencoded } = require('body-parser')
 const { ObjectId } = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://zach:${process.env.MONGO_PWD}@cluster0.ftfvb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
+const PORT = process.env.PORT || 3000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -29,7 +29,13 @@ const client = new MongoClient(uri, {
 
 
 app.get('/', function (req, res) {
-  res.sendFile('index.html')
+
+  //kinda like the read/ 
+  //await coneect find one let result...db 
+  res.render('index', {
+    myServerVariable : "This is an ejs page"
+  });
+  // res.sendFile('index.html')
 })
 
 //ejs stuff
@@ -106,4 +112,7 @@ app.post('/delete/:id', async (req,res)=>{
   })
 })
 
-app.listen(3000);
+//app.listen(3000);
+app.listen(PORT, () => {
+  console.log(`Server is running & listening on port ${PORT}`);
+});
