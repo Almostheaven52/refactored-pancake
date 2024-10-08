@@ -77,12 +77,13 @@ app.post('/insert', async (req,res)=> {
 
   console.log('in /insert');
   //connect to db,
+  console.log(req.body);
   await client.connect();
   //point to the collection 
-  await client.db("zach-db").collection("class collection").insertOne({ post: req.body.newPost});
+  await client.db("zach-db").collection("class collection").insertOne({ name: req.body.userName});
   //await client.db("zach-db").collection("class collection").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
   //insert into it
-  res.redirect('read');
+  res.redirect(`/?name=${req.body.userName}`);
 
 });
 
