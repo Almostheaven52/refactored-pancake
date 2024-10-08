@@ -14,8 +14,7 @@
 <body>
 
     <h1>my ejs page</h1>
-<br> 
-<%=myServerVariable %> 
+<br>  
 <div class="container-fluid">
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
@@ -36,21 +35,42 @@
       <h4 class="card-title">Name stuffs</h4>
           <p class="card-text">gimme your name for some cool facts!</p>
           
-          <label for="userName" class="form-label">What is your name :3?</label>
-          <input type="text" id="userName" class="form-control" name="userName">
-          <button id="btnGetFacts" class="btn btn-secondary">Get educated by prof Doge!</button>
+          <form method="POST" action="/insert">  
+            <label for="newPost"> 
+            <input id="newPost" name="newPost">
+            <input name="somethingElseIJustMadeUp">     
+            <input type="submit" value="get edumacated"  name="#btnGetFacts">
+          </form>
     </div>     
   </div>
-  
   <div class="col-sm-4">
     <div class="card">
       <span id="coolNameFactsOutput"> 
 
       </span>
     </div>  
-  </div>
-  
+  </div> 
 </div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card" id="facts">
+      <h4 class="card-title">Name History</h4>
+          <p>
+            <% for (var i=0; i< postData.length; i++ ) { %>
+              <form method="POST" action="/update/<%= postData[i]._id %>" style="display: inline-block">  
+                <%= postData[i].post %> 
+                <input type="submit" value="update"> 
+              </form>
+              <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
+                <input type="submit" value="delete">
+              </form>
+              <br/>
+            <% } %>
+          </p>
+    </div>
+</div>
+
 
 <div class="footer">
   <a href="https://github.com/Almostheaven52/Professor-Doge">Check me out on Github!</a>

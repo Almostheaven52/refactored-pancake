@@ -28,14 +28,19 @@ const client = new MongoClient(uri, {
 
 
 
-app.get('/', function (req, res) {
 
-  //kinda like the read/ 
-  //await coneect find one let result...db 
+app.get('/', async (req, res)=>{
+
+  await client.connect();
+
+  let result = await client.db("zach-db").collection("class collection")
+    .find({}).toArray();
+
   res.render('index', {
-    myServerVariable : "This is an ejs page"
+    postData : result
   });
   // res.sendFile('index.html')
+
 })
 
 //ejs stuff
@@ -92,7 +97,7 @@ app.post('/update/:id', async (req,res)=>{
 )
 .then(result => {
   console.log(result); 
-  res.redirect('/read');
+  res.redirect('/');
 })
 });
 
@@ -108,7 +113,7 @@ app.post('/delete/:id', async (req,res)=>{
 
   .then(result => {
     console.log(result); 
-    res.redirect('/read');
+    res.redirect('/');
   })
 })
 
