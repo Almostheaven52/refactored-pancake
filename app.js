@@ -6,7 +6,7 @@ const { urlencoded } = require('body-parser')
 const { ObjectId } = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://zach:${process.env.MONGO_PWD}@cluster0.ftfvb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
+const PORT = process.env.PORT || 3000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -26,23 +26,21 @@ const client = new MongoClient(uri, {
   }
 });
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
 
 
-app.get('/', function (req, res) {
-  res.sendFile('index.html')
+
+app.get('/', async (req, res)=>{
+
+  await client.connect();
+
+  let result = await client.db("zach-db").collection("class collection")
+    .find({}).toArray();
+
+  res.render('index', {
+    postData : result
+  });
+  // res.sendFile('index.html')
+
 })
 
 //ejs stuff
@@ -59,7 +57,7 @@ app.get('/ejs', (req,res)=>{
 
 app.get('/read', async (req,res)=>{
 
-    console.log('in /mongo');
+    console.log('in /read');
     await client.connect();
     
     console.log('connected?');
@@ -69,37 +67,38 @@ app.get('/read', async (req,res)=>{
       .find({}).toArray(); 
     console.log(result); 
   
-    res.render('mongo', {
+    res.render('read', {
       postData : result
     });
   
 })
 
-app.get('/insert', async (req,res)=> {
+app.post('/insert', async (req,res)=> {
 
   console.log('in /insert');
   //connect to db,
+  console.log(req.body);
   await client.connect();
   //point to the collection 
-  await client.db("zach-db").collection("class collection").insertOne({ post: 'hardcoded post insert '});
-  await client.db("zach-db").collection("class collection").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
+  await client.db("zach-db").collection("class collection").insertOne({ name: req.body.userName});
+  //await client.db("zach-db").collection("class collection").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
   //insert into it
-  res.render('insert');
+  res.redirect(`/?name=${req.body.userName}`);
 
 });
 
-app.post('/update/:id', async (req,res)=>{
+app.post('/update', async (req,res)=>{
 
-  console.log("req.parms.id: ", req.params.id)
+  console.log("req.body.nameID: ", req.body.nameID)
 
   client.connect; 
   const collection = client.db("zach-db").collection("class collection");
   let result = await collection.findOneAndUpdate( 
-  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "NEW POST" } }
+  {"_id": new ObjectId(req.body.nameID)}, { $set: {"name": req.body.nameUpdate } }
 )
 .then(result => {
   console.log(result); 
-  res.redirect('/read');
+  res.redirect('/');
 })
 });
 
@@ -115,8 +114,11 @@ app.post('/delete/:id', async (req,res)=>{
 
   .then(result => {
     console.log(result); 
-    res.redirect('/read');
+    res.redirect('/');
   })
 })
 
-app.listen(3000);
+//app.listen(3000);
+app.listen(PORT, () => {
+  console.log(`Server is running & listening on port ${PORT}`);
+});

@@ -2,10 +2,19 @@ $(document).ready(function () {
   console.log("doc is ready");
  
   let revName; 
+  
+  //if(!submitedName) {
+    const queryString = window.location.search;
+    console.log(queryString);
+    const urlParams = new URLSearchParams(queryString);
+    const name = urlParams.get("name");
+    console.log(name);
+    //strip out param..
+    let coolFacts = generateCoolNameFacts(name);
+    $("#coolNameFactsOutput").html(coolFacts);
+  //}
 
-
-  $
-    ("#btnGetFacts").click(function (){
+  $("#btnGetFacts").click(function (){
 
       // handle it if input is blank
 
