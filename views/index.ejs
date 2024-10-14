@@ -57,27 +57,30 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-4">
-    <div class="card" id="facts">
-      <h4 class="card-title">Name History</h4>
-          <p>
-            <% for (var i=0; i< postData.length; i++ ) { %>
-              <form method="POST" action="/update/<%= postData[i]._id %>" style="display: inline-block">  
-                <%= postData[i].name %> 
-                <input type="submit" value="update"> 
-              </form>
-              <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
-                <input type="submit" value="delete">
-              </form>
-              <br/>
-            <% } %>
-          </p>
+  <div class="col-md-5"></div>
+    <div class="col-md-3">
+      <div class="card" id="facts">
+        <h4 class="card-title">Name History</h4>
+            <p>
+              <% for (var i=0; i< postData.length; i++ ) { %>
+                <form method="POST" action="/update" style="display: inline-block">  
+                  <input type="hidden" name="nameID" value="<%= postData[i]._id %>">
+                  <input id="nameUpdate" name="nameUpdate" value="<%= postData[i].name %>">
+                  <input type="submit" class="btn btn-primary btn-sm"value="update"> 
+                </form>
+                <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
+                  <input type="submit" class="btn btn-primary btn-sm" value="delete">
+                </form>
+                <br/>
+              <% } %>
+            </p>
+      </div>
     </div>
 </div>
 
 
 <div class="footer">
-  <a href="https://github.com/Almostheaven52/Professor-Doge">Check me out on Github!</a>
+  <a href="https://github.com/Almostheaven52/refactored-pancake">Check me out on Github!</a>
 </div>
 
 

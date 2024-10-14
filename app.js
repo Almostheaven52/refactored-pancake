@@ -87,14 +87,14 @@ app.post('/insert', async (req,res)=> {
 
 });
 
-app.post('/update/:id', async (req,res)=>{
+app.post('/update', async (req,res)=>{
 
-  console.log("req.parms.id: ", req.params.id)
+  console.log("req.body.nameID: ", req.body.nameID)
 
   client.connect; 
   const collection = client.db("zach-db").collection("class collection");
   let result = await collection.findOneAndUpdate( 
-  {"_id": new ObjectId(req.params.id)}, { $set: {"name": "NEW POST" } }
+  {"_id": new ObjectId(req.body.nameID)}, { $set: {"name": req.body.nameUpdate } }
 )
 .then(result => {
   console.log(result); 

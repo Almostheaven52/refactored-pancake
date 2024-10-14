@@ -10,14 +10,15 @@
 
 
 <h3> my blog posts</h3> 
- <% for (var i=0; i< postData.length; i++ ) { %>
-  <form method="POST" action="/update/<%= postData[i]._id %>" style="display: inline-block">  
-    <%= postData[i].post %> 
-    <input type="submit" value="update"> 
-  </form>
-  <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
-    <input type="submit" value="delete">
-  </form>
+    <% for (var i=0; i< postData.length; i++ ) { %>
+      <form method="POST" action="/update" style="display: inline-block">  
+        <input type="hidden" name="nameID" value="<%= postData[i]._id %>">
+        <input id="nameUpdate" name="nameUpdate" value="<%= postData[i].name %>">
+        <input type="submit" class="btn btn-primary btn-sm"value="update"> 
+      </form>
+      <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
+        <input type="submit" value="delete">
+      </form>
   <br/>
 <% } %>
 

@@ -21,6 +21,7 @@ h3 {
 #dogePic {
   height: 60vh;
   width: auto;
+  border: #000000 7px outset;
 }
 
 .footer {
@@ -28,7 +29,9 @@ h3 {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: red;
-  color: black;
+  background-color: rgb(216, 244, 5);
+  color: rgb(38, 21, 54);
   text-align: center;
 }
+
+
